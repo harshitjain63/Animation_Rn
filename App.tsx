@@ -3,11 +3,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import HomeScreen from './screens/HomeScreen';
+import GridAnimation from './screens/GridAnimation';
 
 const Stack = createNativeStackNavigator();
 
 export type RootStackParamList = {
   Home: undefined;
+  GridAnimation: undefined;
 };
 
 const App = () => {
@@ -21,6 +23,11 @@ const App = () => {
             name="Home"
             component={HomeScreen}
             options={{title: 'Home'}}
+          />
+          <Stack.Screen
+            name="GridAnimation"
+            component={GridAnimation}
+            options={{title: 'Grid Animation'}}
           />
         </Stack.Navigator>
       </NavigationContainer>
