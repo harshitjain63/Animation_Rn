@@ -17,6 +17,10 @@ const HomeScreen = () => {
         title="Grid Animation Screen"
         onPress={() => navigation.navigate('GridAnimation')}
       />
+      <Button
+        title="Text Animation Screen"
+        onPress={() => navigation.navigate('TextAnimation')}
+      />
     </View>
   );
 };
