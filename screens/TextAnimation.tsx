@@ -46,7 +46,6 @@ const TextAnimation: React.FC = () => {
   const opacityAnim = new Animated.Value(1);
 
   useEffect(() => {
-    // Create a new animation value for each word in the current sentence
     const newAnimations = words.map(() => new Animated.Value(0));
     setAnimations(newAnimations);
     animateWords(newAnimations);
@@ -78,7 +77,7 @@ const TextAnimation: React.FC = () => {
       if (finished) {
         setTimeout(() => {
           goToNextSentence();
-        }, 500);
+        }, 3000);
       }
     });
   };
@@ -108,7 +107,7 @@ const TextAnimation: React.FC = () => {
                       translateY:
                         animations[index]?.interpolate({
                           inputRange: [0, 1],
-                          outputRange: [30, 0], // From bottom to position
+                          outputRange: [30, 0],
                         }) || 0,
                     },
                     {
@@ -116,7 +115,7 @@ const TextAnimation: React.FC = () => {
                     },
                   ],
                   opacity: animations[index] || 1,
-                  color: TEXT_COLORS[currentSentenceIndex], // Change text color based on sentence
+                  color: TEXT_COLORS[currentSentenceIndex],
                 },
               ]}>
               {word}
