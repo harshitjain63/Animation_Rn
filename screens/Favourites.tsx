@@ -22,7 +22,7 @@ const Favourites = () => {
   const [data, setData] = useState<ImageProp[]>([]);
 
   const getApiData = async () => {
-    const response = await axios.get('https://randomuser.me/api/?results=100');
+    const response = await axios.get('https://randomuser.me/api/?results=50');
     console.log(response.data);
     if (response.data) {
       setData(response.data.results);
