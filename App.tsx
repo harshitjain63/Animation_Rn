@@ -5,6 +5,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import HomeScreen from './screens/HomeScreen';
 import GridAnimation from './screens/GridAnimation';
 import TextAnimation from './screens/TextAnimation';
+import Favourites from './screens/Favourites';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ export type RootStackParamList = {
   Home: undefined;
   GridAnimation: undefined;
   TextAnimation: undefined;
+  Favourites: undefined;
 };
 
 const App = () => {
@@ -35,6 +37,11 @@ const App = () => {
             name="TextAnimation"
             component={TextAnimation}
             options={{title: 'Text Animation'}}
+          />
+          <Stack.Screen
+            name="Favourites"
+            component={Favourites}
+            options={{title: 'Favourites Animation', headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
