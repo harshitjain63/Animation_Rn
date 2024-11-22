@@ -21,6 +21,10 @@ const HomeScreen = () => {
         title="Text Animation Screen"
         onPress={() => navigation.navigate('TextAnimation')}
       />
+      <Button
+        title="Text Animation Screen"
+        onPress={() => navigation.navigate('Favourites')}
+      />
     </View>
   );
 };
