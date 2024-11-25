@@ -1,9 +1,15 @@
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import data, {locationImage} from '../../utils/data';
+import Animated, {
+  Extrapolation,
+  interpolate,
+  SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 const {width} = Dimensions.get('window');
-const duration = 300;
+
 const _size = width * 0.9;
 const layout = {
   borderRadius: 16,
@@ -23,14 +29,55 @@ const colors = {
 const Cards = ({
   info,
   index,
+  activeIndex,
   totalLength,
 }: {
   totalLength: number;
   index: number;
+  activeIndex: SharedValue<number>;
   info: (typeof data)[0];
 }) => {
+  const stylez = useAnimatedStyle(() => {
+    return {
+      position: 'absolute',
+      zIndex: totalLength - index,
+      opacity: interpolate(
+        activeIndex.value,
+        [index - 1, index, index + 1],
+        [1 - 1 / maxVisibleItems, 1, 1],
+      ),
+      shadowOpacity: interpolate(
+        activeIndex.value,
+        [index - 1, index, index + 1],
+        [0, 0, 1],
+        {
+          extrapolateRight: Extrapolation.CLAMP,
+        },
+      ),
+      transform: [
+        {
+          translateY: interpolate(
+            activeIndex.value,
+            [index - 1, index, index + 1],
+            [-layout.cardsGap, 0, layout.height + layout.cardsGap],
+            {
+              extrapolateRight: Extrapolation.EXTEND,
+            },
+          ),
+        },
+        {
+          scale: interpolate(
+            activeIndex.value,
+            [index - 1, index, index + 1],
+            [0.96, 1, 1],
+          ),
+        },
+      ],
+    };
+  });
+
   return (
-    <View style={[styles.card]}>
+    <Animated.View style={[styles.card, stylez]}>
       <Text
         style={[
           styles.title,
@@ -73,7 +120,7 @@ const Cards = ({
         </View>
       </View>
       <Image source={{uri: locationImage}} style={styles.locationImage} />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -92,6 +139,14 @@ const styles = StyleSheet.create({
     height: layout.height,
     padding: layout.spacing,
     backgroundColor: colors.light,
+    shadowColor: colors.dark,
+    shadowRadius: 10,
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    elevation: 5,
   },
   title: {fontSize: 32, fontWeight: '600', color: 'black'},
   subtitle: {
