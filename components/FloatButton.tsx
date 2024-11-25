@@ -1,44 +1,42 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  Gesture,
-  GestureDetector,
-  TextInput,
-} from 'react-native-gesture-handler';
 
 const FloatButton = () => {
   const scale = useSharedValue(1);
   const width = useSharedValue(55);
   const height = useSharedValue(55);
   const borderRadius = useSharedValue(40);
-  const rotate = useSharedValue(0); // For rotating the '+' into 'x'
-  const isExpanded = useSharedValue(false); // Track expanded state
+  const rotate = useSharedValue(0);
+  const isExpanded = useSharedValue(false);
 
-  const tap = Gesture.Tap().onStart(() => {
+  const handleTap = () => {
     if (!isExpanded.value) {
-      // Expand
       scale.value = withTiming(1.5, {duration: 500});
       width.value = withTiming(200, {duration: 500});
       height.value = withTiming(200, {duration: 500});
       borderRadius.value = withTiming(20, {duration: 500});
-      rotate.value = withTiming(45, {duration: 500}); // Rotate to 45 degrees
+      rotate.value = withTiming(45, {duration: 500});
     } else {
-      // Collapse
       scale.value = withTiming(1, {duration: 500});
       width.value = withTiming(55, {duration: 500});
       height.value = withTiming(55, {duration: 500});
       borderRadius.value = withTiming(40, {duration: 500});
-      rotate.value = withTiming(0, {duration: 500}); // Rotate back to 0
+      rotate.value = withTiming(0, {duration: 500});
     }
     isExpanded.value = !isExpanded.value;
-  });
+  };
 
-  // Animated styles for the button
   const rButtonStyle = useAnimatedStyle(() => {
     return {
       transform: [{scale: scale.value}],
@@ -48,53 +46,49 @@ const FloatButton = () => {
     };
   });
 
-  // Animated styles for the `+` text
   const rTextStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        {translateX: isExpanded.value ? 80 : 0}, // Move diagonally
-        {translateY: isExpanded.value ? -80 : 0}, // Move diagonally
-        {rotate: `${rotate.value}deg`}, // Rotate text
+        {translateX: isExpanded.value ? 80 : 0},
+        {translateY: isExpanded.value ? -80 : 0},
+        {rotate: `${rotate.value}deg`},
       ],
     };
   });
 
-  // Style for the expanded view
   const rExpandedViewStyle = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(isExpanded.value ? 1 : 0, {duration: 300}), // Show/Hide
+      opacity: withTiming(isExpanded.value ? 1 : 0, {duration: 300}),
     };
   });
 
   return (
-    <GestureDetector gesture={tap}>
-      <Animated.View style={[styles.actionButton, rButtonStyle]}>
-        {/* Animated Text */}
-        <Animated.Text style={[styles.text, rTextStyle]}>+</Animated.Text>
+    <Animated.View style={[styles.actionButton, rButtonStyle]}>
+      <Animated.Text style={[styles.text, rTextStyle]} onPress={handleTap}>
+        +
+      </Animated.Text>
 
-        {/* Hidden Component (only visible when expanded) */}
-        <Animated.View style={[rExpandedViewStyle]}>
-          <Text style={styles.titleText}>Black Friday</Text>
-          <Text style={styles.bodyText}>
-            AnimateReactNative.com is now on sale for Black Friday at half the
-            price for all plans 🎊
-          </Text>
-          <Text style={styles.discountText}>
-            Use BF2023 at checkout to save $99.5.
-          </Text>
-          <View style={styles.codeInput}>
-            <TextInput
-              placeholder="Paste BF2023 for 50% OFF"
-              placeholderTextColor={'#4c4a4d'}
-              style={styles.textInput}
-            />
-          </View>
-          <TouchableOpacity style={styles.guide}>
-            <Text style={styles.guideText}>Use.Learn.Save time</Text>
-          </TouchableOpacity>
-        </Animated.View>
+      <Animated.View style={[rExpandedViewStyle]}>
+        <Text style={styles.titleText}>Black Friday</Text>
+        <Text style={styles.bodyText}>
+          AnimateReactNative.com is now on sale for Black Friday at half the
+          price for all plans 🎊
+        </Text>
+        <Text style={styles.discountText}>
+          Use BF2023 at checkout to save $99.5.
+        </Text>
+        <View style={styles.codeInput}>
+          <TextInput
+            placeholder="Paste BF2023 for 50% OFF"
+            placeholderTextColor={'#4c4a4d'}
+            style={styles.textInput}
+          />
+        </View>
+        <TouchableOpacity style={styles.guide}>
+          <Text style={styles.guideText}>Use.Learn.Save time</Text>
+        </TouchableOpacity>
       </Animated.View>
-    </GestureDetector>
+    </Animated.View>
   );
 };
 
@@ -120,8 +114,6 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '80%',
-    height: '60%',
   },
   titleText: {
     fontSize: 16,
