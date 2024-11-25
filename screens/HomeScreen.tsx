@@ -40,6 +40,12 @@ const HomeScreen = () => {
       screen: 'Favourites',
       backgroundColor: '#FFC3A0',
     },
+    {
+      id: 4,
+      title: 'Card Animation Screen',
+      screen: 'Cards',
+      backgroundColor: '#FFDDC1',
+    },
   ];
 
   const renderItem = ({item}: {item: ListItem}) => {
