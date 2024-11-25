@@ -7,6 +7,7 @@ import GridAnimation from './screens/GridAnimation';
 import TextAnimation from './screens/TextAnimation';
 import Favourites from './screens/Favourites';
 import CardsAnimation from './screens/CardsAnimation';
+import FloatingButton from './screens/FloatingButton';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   TextAnimation: undefined;
   Favourites: undefined;
   Cards: undefined;
+  FloatingButton: undefined;
 };
 
 const App = () => {
@@ -49,6 +51,11 @@ const App = () => {
             name="Cards"
             component={CardsAnimation}
             options={{title: 'Cards Animation', headerShown: false}}
+          />
+          <Stack.Screen
+            name="FloatingButton"
+            component={FloatingButton}
+            options={{title: 'FloatingButton Animation', headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>

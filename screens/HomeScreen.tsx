@@ -46,6 +46,12 @@ const HomeScreen = () => {
       screen: 'Cards',
       backgroundColor: '#FFDDC1',
     },
+    {
+      id: 5,
+      title: 'FloatingButton Animation Screen',
+      screen: 'FloatingButton',
+      backgroundColor: '#FFABAB',
+    },
   ];
 
   const renderItem = ({item}: {item: ListItem}) => {
