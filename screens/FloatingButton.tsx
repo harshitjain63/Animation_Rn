@@ -1,6 +1,7 @@
 import {FlatList, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import FloatButton from '../components/FloatButton';
+import {BlurView} from '@react-native-community/blur';
 
 const colorCodes = [
   '#f1959c',
@@ -22,6 +23,7 @@ const colorCodes = [
 ];
 
 const FloatingButton = () => {
+  const [value, setValue] = useState(false);
   const renderItem = ({item}: {item: string}) => {
     return (
       <View
@@ -37,6 +39,13 @@ const FloatingButton = () => {
 
   return (
     <View style={styles.container}>
+      {value && (
+        <BlurView
+          style={[StyleSheet.absoluteFillObject, {zIndex: 100}]}
+          blurAmount={100}
+        />
+      )}
+
       <FlatList
         data={colorCodes}
         renderItem={renderItem}
@@ -46,7 +55,7 @@ const FloatingButton = () => {
         contentContainerStyle={styles.content}
         columnWrapperStyle={styles.columnWrapper}
       />
-      <FloatButton />
+      <FloatButton value={value} setValue={setValue} />
     </View>
   );
 };

@@ -12,7 +12,13 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-const FloatButton = () => {
+const FloatButton = ({
+  setValue,
+  value,
+}: {
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
+  value: boolean;
+}) => {
   const scale = useSharedValue(1);
   const width = useSharedValue(55);
   const height = useSharedValue(55);
@@ -22,19 +28,20 @@ const FloatButton = () => {
 
   const handleTap = () => {
     if (!isExpanded.value) {
-      scale.value = withTiming(1.5, {duration: 500});
-      width.value = withTiming(200, {duration: 500});
-      height.value = withTiming(200, {duration: 500});
-      borderRadius.value = withTiming(20, {duration: 500});
-      rotate.value = withTiming(45, {duration: 500});
+      scale.value = withTiming(1.5, {duration: 300});
+      width.value = withTiming(200, {duration: 300});
+      height.value = withTiming(200, {duration: 300});
+      borderRadius.value = withTiming(20, {duration: 300});
+      rotate.value = withTiming(45, {duration: 300});
     } else {
-      scale.value = withTiming(1, {duration: 500});
-      width.value = withTiming(55, {duration: 500});
-      height.value = withTiming(55, {duration: 500});
-      borderRadius.value = withTiming(40, {duration: 500});
-      rotate.value = withTiming(0, {duration: 500});
+      scale.value = withTiming(1, {duration: 300});
+      width.value = withTiming(55, {duration: 300});
+      height.value = withTiming(55, {duration: 300});
+      borderRadius.value = withTiming(40, {duration: 300});
+      rotate.value = withTiming(0, {duration: 300});
     }
     isExpanded.value = !isExpanded.value;
+    setValue(!value);
   };
 
   const rButtonStyle = useAnimatedStyle(() => {
@@ -71,11 +78,13 @@ const FloatButton = () => {
       <Animated.View style={[rExpandedViewStyle]}>
         <Text style={styles.titleText}>Black Friday</Text>
         <Text style={styles.bodyText}>
-          AnimateReactNative.com is now on sale for Black Friday at half the
-          price for all plans 🎊
+          <Text style={styles.linkText}>AnimateReactNative.com</Text> is now on
+          sale for <Text style={styles.highlightedText}>Black Friday </Text>
+          at half the price for all plans 🎊
         </Text>
         <Text style={styles.discountText}>
-          Use BF2023 at checkout to save $99.5.
+          Use <Text style={styles.highlightedText}>BF2023 </Text>at checkout to
+          save <Text style={styles.highlightedText}>$99.5</Text>.
         </Text>
         <View style={styles.codeInput}>
           <TextInput
@@ -101,20 +110,14 @@ const styles = StyleSheet.create({
     bottom: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    zIndex: 200,
   },
   text: {
     color: 'white',
     fontSize: 35,
     position: 'absolute',
   },
-  expandedView: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   titleText: {
     fontSize: 16,
     color: 'white',
@@ -124,7 +127,6 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     fontSize: 10,
-    color: 'white',
     position: 'absolute',
     top: -55,
     right: -85,
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
   },
   discountText: {
     fontSize: 10,
-    color: 'white',
+
     position: 'absolute',
     top: -5,
     right: -85,
@@ -166,4 +168,9 @@ const styles = StyleSheet.create({
     color: '#5e3f00',
     fontWeight: 'bold',
   },
+  linkText: {
+    color: '#3282a5',
+    fontSize: 10,
+  },
+  highlightedText: {fontWeight: 'bold', color: 'white'},
 });
