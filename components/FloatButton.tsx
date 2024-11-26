@@ -1,11 +1,12 @@
 import {
+  Keyboard,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -25,6 +26,21 @@ const FloatButton = ({
   const borderRadius = useSharedValue(40);
   const rotate = useSharedValue(0);
   const isExpanded = useSharedValue(false);
+  const keyboardOffset = useSharedValue(70);
+
+  useEffect(() => {
+    const keyboardShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      keyboardOffset.value = withTiming(220, {duration: 1500}); // Adjust value to match your UI
+    });
+    const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      keyboardOffset.value = withTiming(70, {duration: 300});
+    });
+
+    return () => {
+      keyboardShowListener.remove();
+      keyboardHideListener.remove();
+    };
+  }, [keyboardOffset]);
 
   const handleTap = () => {
     if (!isExpanded.value) {
@@ -39,6 +55,7 @@ const FloatButton = ({
       height.value = withTiming(55, {duration: 300});
       borderRadius.value = withTiming(40, {duration: 300});
       rotate.value = withTiming(0, {duration: 300});
+      // keyboardOffset.value = withTiming(70, {duration: 300});
     }
     isExpanded.value = !isExpanded.value;
     setValue(!value);
@@ -50,6 +67,7 @@ const FloatButton = ({
       width: width.value,
       height: height.value,
       borderRadius: borderRadius.value,
+      bottom: keyboardOffset.value,
     };
   });
 
