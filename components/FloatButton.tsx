@@ -1,15 +1,16 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Keyboard,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withTiming,
 } from 'react-native-reanimated';
 
@@ -27,13 +28,16 @@ const FloatButton = ({
   const rotate = useSharedValue(0);
   const isExpanded = useSharedValue(false);
   const keyboardOffset = useSharedValue(70);
+  // const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
     const keyboardShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      keyboardOffset.value = withTiming(220, {duration: 1500}); // Adjust value to match your UI
+      keyboardOffset.value = withDelay(300, withTiming(380, {duration: 500}));
+      // setKeyboardHeight(event.endCoordinates.height);
     });
     const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
       keyboardOffset.value = withTiming(70, {duration: 300});
+      // setKeyboardHeight(0);
     });
 
     return () => {
@@ -68,14 +72,17 @@ const FloatButton = ({
       height: height.value,
       borderRadius: borderRadius.value,
       bottom: keyboardOffset.value,
+      // bottom: withTiming(keyboardHeight ? keyboardHeight : 70, {
+      //   duration: 1500,
+      // }),
     };
   });
 
   const rTextStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        {translateX: isExpanded.value ? 80 : 0},
-        {translateY: isExpanded.value ? -80 : 0},
+        {translateX: isExpanded.value ? 83 : 0},
+        {translateY: isExpanded.value ? -5 : 0},
         {rotate: `${rotate.value}deg`},
       ],
     };
@@ -93,7 +100,11 @@ const FloatButton = ({
         +
       </Animated.Text>
 
-      <Animated.View style={[rExpandedViewStyle]}>
+      <Animated.View
+        style={[
+          rExpandedViewStyle,
+          {position: 'absolute', marginTop: 10, gap: 10},
+        ]}>
         <Text style={styles.titleText}>Black Friday</Text>
         <Text style={styles.bodyText}>
           <Text style={styles.linkText}>AnimateReactNative.com</Text> is now on
@@ -104,13 +115,13 @@ const FloatButton = ({
           Use <Text style={styles.highlightedText}>BF2023 </Text>at checkout to
           save <Text style={styles.highlightedText}>$99.5</Text>.
         </Text>
-        <View style={styles.codeInput}>
-          <TextInput
-            placeholder="Paste BF2023 for 50% OFF"
-            placeholderTextColor={'#4c4a4d'}
-            style={styles.textInput}
-          />
-        </View>
+
+        <TextInput
+          placeholder="Paste BF2023 for 50% OFF"
+          placeholderTextColor={'#4c4a4d'}
+          style={styles.codeInput}
+        />
+
         <TouchableOpacity style={styles.guide}>
           <Text style={styles.guideText}>Use.Learn.Save time</Text>
         </TouchableOpacity>
@@ -126,45 +137,33 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#131114',
     bottom: 70,
-    justifyContent: 'center',
     alignItems: 'center',
     zIndex: 200,
   },
   text: {
     color: 'white',
     fontSize: 35,
-    position: 'absolute',
   },
 
   titleText: {
     fontSize: 16,
     color: 'white',
-    position: 'absolute',
-    top: -92,
-    right: 5,
   },
   bodyText: {
     fontSize: 10,
-    position: 'absolute',
-    top: -55,
-    right: -85,
+
     width: 175,
   },
   discountText: {
     fontSize: 10,
 
-    position: 'absolute',
-    top: -5,
-    right: -85,
     width: 175,
   },
   codeInput: {
     backgroundColor: '#2c292c',
-    position: 'absolute',
-    top: 20,
-    right: -85,
+
     width: 175,
-    height: 31,
+    height: 35,
     borderRadius: 8,
   },
   textInput: {
@@ -172,9 +171,7 @@ const styles = StyleSheet.create({
   },
   guide: {
     backgroundColor: '#f7d106',
-    position: 'absolute',
-    top: 60,
-    right: -85,
+
     width: 175,
     height: 31,
     borderRadius: 8,

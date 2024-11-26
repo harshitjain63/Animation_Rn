@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import FloatButton from '../components/FloatButton';
 import {BlurView} from '@react-native-community/blur';
@@ -38,25 +38,27 @@ const FloatingButton = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {value && (
-        <BlurView
-          style={[StyleSheet.absoluteFillObject, {zIndex: 100}]}
-          blurAmount={100}
-        />
-      )}
+    <KeyboardAvoidingView style={styles.container}>
+      <View style={styles.container}>
+        {value && (
+          <BlurView
+            style={[StyleSheet.absoluteFillObject, {zIndex: 100}]}
+            blurAmount={100}
+          />
+        )}
 
-      <FlatList
-        data={colorCodes}
-        renderItem={renderItem}
-        numColumns={2}
-        keyExtractor={(item, index) => `${item}_${index}`}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}
-        columnWrapperStyle={styles.columnWrapper}
-      />
-      <FloatButton value={value} setValue={setValue} />
-    </View>
+        <FlatList
+          data={colorCodes}
+          renderItem={renderItem}
+          numColumns={2}
+          keyExtractor={(item, index) => `${item}_${index}`}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.content}
+          columnWrapperStyle={styles.columnWrapper}
+        />
+        <FloatButton value={value} setValue={setValue} />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
