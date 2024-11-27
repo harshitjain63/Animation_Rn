@@ -52,6 +52,12 @@ const HomeScreen = () => {
       screen: 'FloatingButton',
       backgroundColor: '#FFABAB',
     },
+    {
+      id: 6,
+      title: 'CaraouselCard Animation Screen',
+      screen: 'CaraouselCard',
+      backgroundColor: '#FFDDC1',
+    },
   ];
 
   const renderItem = ({item}: {item: ListItem}) => {

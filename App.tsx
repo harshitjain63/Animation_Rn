@@ -8,6 +8,7 @@ import TextAnimation from './screens/TextAnimation';
 import Favourites from './screens/Favourites';
 import CardsAnimation from './screens/CardsAnimation';
 import FloatingButton from './screens/FloatingButton';
+import CaraouselCard from './screens/CaraouselCard';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   Favourites: undefined;
   Cards: undefined;
   FloatingButton: undefined;
+  CaraouselCard: undefined;
 };
 
 const App = () => {
@@ -56,6 +58,11 @@ const App = () => {
             name="FloatingButton"
             component={FloatingButton}
             options={{title: 'FloatingButton Animation', headerShown: false}}
+          />
+          <Stack.Screen
+            name="CaraouselCard"
+            component={CaraouselCard}
+            options={{title: 'CaraouselCard Animation', headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
