@@ -56,7 +56,13 @@ const HomeScreen = () => {
       id: 6,
       title: 'CaraouselCard Animation Screen',
       screen: 'CaraouselCard',
-      backgroundColor: '#FFDDC1',
+      backgroundColor: '#FFC3A0',
+    },
+    {
+      id: 7,
+      title: 'OnBoarding Animation Screen',
+      screen: 'OnBoarding',
+      backgroundColor: '#FFABAB',
     },
   ];
 
