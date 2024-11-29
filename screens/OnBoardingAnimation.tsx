@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
@@ -19,6 +20,7 @@ const Screen_Height = Dimensions.get('window').height;
 const OnBoardingAnimation = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const circlePositions = [
     {
       x: useSharedValue(0),
@@ -41,14 +43,6 @@ const OnBoardingAnimation = () => {
   ];
 
   // Update shared values after initial rendering
-  useEffect(() => {
-    circlePositions.forEach(circle => {
-      circle.x.value = Math.random() * (Screen_Width - 200);
-      circle.y.value = Math.random() * (Screen_Height - 300);
-      circle.scale.value = Math.max(Math.random(), 0.6) * 2;
-      circle.borderWidth.value = Math.max(4, Math.random() * 10);
-    });
-  }, [activeIndex]);
 
   // Scroll-related shared values
   const scrollX = useSharedValue(0);
@@ -58,11 +52,11 @@ const OnBoardingAnimation = () => {
   useEffect(() => {
     circlePositions.forEach(circle => {
       circle.x.value = withSpring(Math.random() * (Screen_Width - 200));
-      circle.y.value = withSpring(Math.random() * (Screen_Height - 400));
-      circle.scale.value = withSpring(Math.max(Math.random(), 0.6) * 2);
+      circle.y.value = withSpring(Math.random() * (Screen_Height - 550));
+      circle.scale.value = withSpring(Math.max(Math.random(), 0.6) * 1.8);
       circle.borderWidth.value = withSpring(Math.max(4, Math.random() * 10));
     });
-  }, [activeIndex]);
+  }, [activeIndex, circlePositions]);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: e => {
@@ -113,7 +107,6 @@ const OnBoardingAnimation = () => {
         ))}
       </Animated.ScrollView>
 
-      {/* Pagination Dots */}
       <View style={styles.paginationContainer}>
         {onboardingdata.map((_, index) => {
           const rStyle = useAnimatedStyle(() => {
