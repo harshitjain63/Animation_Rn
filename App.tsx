@@ -11,6 +11,7 @@ import FloatingButton from './screens/FloatingButton';
 import CaraouselCard from './screens/CaraouselCard';
 import OnBoardingAnimation from './screens/OnBoardingAnimation';
 import {Profiler} from 'react';
+import TestingScreen from './screens/TestingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export type RootStackParamList = {
   FloatingButton: undefined;
   CaraouselCard: undefined;
   OnBoarding: undefined;
+  Testing: undefined;
 };
 
 const App = () => {
@@ -87,6 +89,11 @@ const App = () => {
               name="OnBoarding"
               component={OnBoardingAnimation}
               options={{title: 'OnBoarding Animation', headerShown: false}}
+            />
+            <Stack.Screen
+              name="Testing"
+              component={TestingScreen}
+              options={{title: 'Testing Screen', headerShown: false}}
             />
           </Stack.Navigator>
         </NavigationContainer>

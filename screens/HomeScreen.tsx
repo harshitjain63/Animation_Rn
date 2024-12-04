@@ -64,6 +64,12 @@ const HomeScreen = () => {
       screen: 'OnBoarding',
       backgroundColor: '#FFABAB',
     },
+    {
+      id: 8,
+      title: 'Testing Screen',
+      screen: 'Testing',
+      backgroundColor: '#FFC3A0',
+    },
   ];
 
   const renderItem = ({item}: {item: ListItem}) => {
