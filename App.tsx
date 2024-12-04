@@ -10,6 +10,7 @@ import CardsAnimation from './screens/CardsAnimation';
 import FloatingButton from './screens/FloatingButton';
 import CaraouselCard from './screens/CaraouselCard';
 import OnBoardingAnimation from './screens/OnBoardingAnimation';
+import {Profiler} from 'react';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,55 +26,72 @@ export type RootStackParamList = {
 };
 
 const App = () => {
+  function onRender(
+    id: string,
+    phase,
+    actualDuration,
+    baseDuration,
+    startTime,
+    commitTime,
+  ) {
+    console.log('id', id);
+    console.log(phase);
+    console.log(actualDuration);
+    console.log(baseDuration);
+    console.log(startTime);
+    console.log(commitTime);
+  }
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      {/* content */}
+    <Profiler id="testprofiler" onRender={onRender}>
+      <GestureHandlerRootView style={{flex: 1}}>
+        {/* content */}
 
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{title: 'Home'}}
-          />
-          <Stack.Screen
-            name="GridAnimation"
-            component={GridAnimation}
-            options={{title: 'Grid Animation'}}
-          />
-          <Stack.Screen
-            name="TextAnimation"
-            component={TextAnimation}
-            options={{title: 'Text Animation'}}
-          />
-          <Stack.Screen
-            name="Favourites"
-            component={Favourites}
-            options={{title: 'Favourites Animation', headerShown: false}}
-          />
-          <Stack.Screen
-            name="Cards"
-            component={CardsAnimation}
-            options={{title: 'Cards Animation', headerShown: false}}
-          />
-          <Stack.Screen
-            name="FloatingButton"
-            component={FloatingButton}
-            options={{title: 'FloatingButton Animation', headerShown: false}}
-          />
-          <Stack.Screen
-            name="CaraouselCard"
-            component={CaraouselCard}
-            options={{title: 'CaraouselCard Animation', headerShown: false}}
-          />
-          <Stack.Screen
-            name="OnBoarding"
-            component={OnBoardingAnimation}
-            options={{title: 'OnBoarding Animation', headerShown: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{title: 'Home'}}
+            />
+            <Stack.Screen
+              name="GridAnimation"
+              component={GridAnimation}
+              options={{title: 'Grid Animation'}}
+            />
+            <Stack.Screen
+              name="TextAnimation"
+              component={TextAnimation}
+              options={{title: 'Text Animation'}}
+            />
+            <Stack.Screen
+              name="Favourites"
+              component={Favourites}
+              options={{title: 'Favourites Animation', headerShown: false}}
+            />
+            <Stack.Screen
+              name="Cards"
+              component={CardsAnimation}
+              options={{title: 'Cards Animation', headerShown: false}}
+            />
+            <Stack.Screen
+              name="FloatingButton"
+              component={FloatingButton}
+              options={{title: 'FloatingButton Animation', headerShown: false}}
+            />
+            <Stack.Screen
+              name="CaraouselCard"
+              component={CaraouselCard}
+              options={{title: 'CaraouselCard Animation', headerShown: false}}
+            />
+            <Stack.Screen
+              name="OnBoarding"
+              component={OnBoardingAnimation}
+              options={{title: 'OnBoarding Animation', headerShown: false}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GestureHandlerRootView>
+    </Profiler>
   );
 };
 
