@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -9,6 +9,8 @@ import {
   View,
 } from 'react-native';
 import Card from '../components/TestingScreen/Card';
+import {useFocusEffect} from '@react-navigation/native';
+import Orientation from 'react-native-orientation-locker';
 
 const backgroundImage = {
   uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png',
@@ -26,6 +28,15 @@ const TestingScreen = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    function lockScreenToPortrait() {
+      setTimeout(() => {
+        Orientation.lockToPortrait();
+      }, 1000);
+    }
+    lockScreenToPortrait();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Image testID="image" source={backgroundImage} style={styles.image} />
@@ -36,6 +47,7 @@ const TestingScreen = () => {
         description={'Testing'}
         imageUrl={backgroundImage}
       />
+
       <TextInput
         testID="textInput"
         style={styles.textInput}

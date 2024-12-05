@@ -4,52 +4,63 @@ import {
   fireEvent,
   userEvent,
   waitFor,
+  screen,
 } from '@testing-library/react-native';
 import TestingScreen from '../screens/TestingScreen';
-import {describe, expect, it, jest} from '@jest/globals';
 import Card from '../components/TestingScreen/Card';
+
+jest.mock('react-native-orientation-locker', () => {
+  return {
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    lockToPortrait: jest.fn(),
+    lockToLandscapeLeft: jest.fn(),
+    lockToLandscapeRight: jest.fn(),
+    unlockAllOrientation: jest.fn(),
+  };
+});
 
 describe('Testing screen rntl', () => {
   it('should render React Native image', () => {
-    const {getByTestId} = render(<TestingScreen />); // Queries
-    const image = getByTestId('image');
+    render(<TestingScreen />); // Queries
+    const image = screen.getByTestId('image');
     expect(image).toBeTruthy();
   });
 
   it('should render React Native title', () => {
-    const {getByText} = render(<TestingScreen />); // Queries
-    const title = getByText('React Native');
+    render(<TestingScreen />); // Queries
+    const title = screen.getByText('React Native');
     expect(title).toBeTruthy();
   });
 
   it('should render React Native paragraph', () => {
-    const {getByTestId} = render(<TestingScreen />); // Queries
-    const paragraph = getByTestId('paragraph');
+    render(<TestingScreen />); // Queries
+    const paragraph = screen.getByTestId('paragraph');
     expect(paragraph).toBeTruthy();
   });
 
   it('should render React Native button', () => {
-    const {getByTestId} = render(<TestingScreen />); // fireEvent
-    fireEvent.press(getByTestId('button'));
+    render(<TestingScreen />); // fireEvent
+    fireEvent.press(screen.getByTestId('button'));
   });
 
   it('should handle text input using userEvent', async () => {
-    const {getByTestId, findByDisplayValue} = render(<TestingScreen />); // userEvent
-    const input = getByTestId('textInput');
+    render(<TestingScreen />); // userEvent
+    const input = screen.getByTestId('textInput');
 
     const user = userEvent.setup();
     await user.type(input, 'Hello world!');
 
-    const typedValue = await findByDisplayValue('Hello world!');
+    const typedValue = await screen.findByDisplayValue('Hello world!');
     expect(typedValue).toBeTruthy();
   });
 
   it('should handle increments counter asynchronously', async () => {
-    const {getByText} = render(<TestingScreen />); // wait for
-    expect(getByText('Count: 0')).toBeTruthy();
+    render(<TestingScreen />); // wait for
+    expect(screen.getByText('Count: 0')).toBeTruthy();
     await waitFor(
       () => {
-        expect(getByText('Count: 2')).toBeTruthy();
+        expect(screen.getByText('Count: 2')).toBeTruthy();
       },
       {
         timeout: 2000,
@@ -60,15 +71,15 @@ describe('Testing screen rntl', () => {
 
   it('should handle button press and log to console', () => {
     const mockLog = jest.spyOn(global.console, 'log'); // Mock the console.log function
-    const {getByTestId} = render(<TestingScreen />);
-    fireEvent.press(getByTestId('button'));
+    render(<TestingScreen />);
+    fireEvent.press(screen.getByTestId('button'));
     expect(mockLog).toHaveBeenCalledWith('Button pressed');
     mockLog.mockRestore();
   });
 
   it('should render the title, description, and image correctly', () => {
     // composite component
-    const {getByText, getByTestId, debug} = render(
+    render(
       <Card
         title="Test Title"
         description="Test Description"
@@ -78,13 +89,13 @@ describe('Testing screen rntl', () => {
       />,
     );
 
-    debug();
+    screen.debug();
 
-    expect(getByText('Test Title')).toBeTruthy();
+    expect(screen.getByText('Test Title')).toBeTruthy();
 
-    expect(getByText('Test Description')).toBeTruthy();
+    expect(screen.getByText('Test Description')).toBeTruthy();
 
-    const image = getByTestId('card-image');
+    const image = screen.getByTestId('card-image');
     expect(image.props.source).toEqual({
       uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png',
     });
@@ -92,7 +103,7 @@ describe('Testing screen rntl', () => {
 
   it('should update when the prop changes', () => {
     // update
-    const {getByText, update, getByTestId} = render(
+    render(
       <Card
         title="Test Title"
         description="Test Description"
@@ -102,13 +113,13 @@ describe('Testing screen rntl', () => {
       />,
     );
 
-    expect(getByText('Test Title')).toBeTruthy();
-    expect(getByText('Test Description')).toBeTruthy();
-    expect(getByTestId('card-image').props.source).toEqual({
+    expect(screen.getByText('Test Title')).toBeTruthy();
+    expect(screen.getByText('Test Description')).toBeTruthy();
+    expect(screen.getByTestId('card-image').props.source).toEqual({
       uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png',
     });
 
-    update(
+    screen.update(
       <Card
         title="Updated Title"
         description="Updated Description"
@@ -118,9 +129,9 @@ describe('Testing screen rntl', () => {
       />,
     );
 
-    expect(getByText('Updated Title')).toBeTruthy();
-    expect(getByText('Updated Description')).toBeTruthy();
-    expect(getByTestId('card-image').props.source).toEqual({
+    expect(screen.getByText('Updated Title')).toBeTruthy();
+    expect(screen.getByText('Updated Description')).toBeTruthy();
+    expect(screen.getByTestId('card-image').props.source).toEqual({
       uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png',
     });
   });
